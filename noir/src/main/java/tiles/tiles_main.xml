@@ -17,7 +17,8 @@
          main메소드 내부에 작성된 뷰주소 /main/main와 아래의 name속성값 /main/main 이 일치하면
     	 해당 템플릿을 사용 합니다 -->
 	<definition name="/main" extends="baseLayout">
-		<put-attribute name="title" value="누아르 메인페이지" />
+		<put-attribute name="title" value="NOIR | Main" />
+		<put-attribute name="header" value="/WEB-INF/views/common/main_header.jsp" />
 		<put-attribute name="body" value="/WEB-INF/views/main/main.jsp" />
 	</definition>
 </tiles-definitions>
