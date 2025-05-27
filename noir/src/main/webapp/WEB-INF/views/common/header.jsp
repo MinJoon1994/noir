@@ -86,6 +86,13 @@
     .header-link:hover {
         color: #5A2A7C;
     }
+    
+    .brand-icon{
+    	width:30px;
+    	height:30px;
+    	margin-right:5px;
+    	padding:5px;
+    }
 </style>
 <body>
 
@@ -99,6 +106,7 @@
 
         <!-- 가운데: 브랜드 -->
         <div class="header-center">
+        	<img class="brand-icon" src="${contextPath}/resources/image/noir_icon.png">
             <div class="brand">NOIR</div>
             <div class="brand-sub">누아르</div>
         </div>
@@ -113,9 +121,11 @@
     <!-- 메뉴 네비게이션 -->
     <nav>
         <a href="<c:url value='/about.do'/>">ABOUT</a>
+        <a href="<c:url value='/menu.do'/>">MENU</a>
         <a href="<c:url value='/reservation/form.do'/>">RESERVATION</a>
         <a href="<c:url value='/gallery/list.do'/>">GALLERY</a>
-        <a href="<c:url value='/gift.do'/>">GIFT</a>
+        <a href="<c:url value='/gift.do'/>">MYPAGE</a>
+        <a href="<c:url value='/gift.do'/>">REVIEW</a>
     </nav>
 
     <!-- 강조용 퍼플 라인 -->
