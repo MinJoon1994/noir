@@ -57,10 +57,37 @@
 .main_title{
 	text-decoration:none;
 	color: black;
+	margin-right:100px;
 }
 
 .main_title:hover{
 	color: black;
+}
+
+.profile-wrapper {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #444;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white; /* 이미지 없는 경우 대비 */
+}
+
+.profile-wrapper img {
+	padding-top:5px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.header-link {
+    color: black;
+    text-decoration: none;
+    font-size: 1rem;
 }
 </style>
 <body>
@@ -81,9 +108,30 @@
       <a href="<c:url value='/menu.do'/>">MENU</a>
       <a href="<c:url value='/reservation/form.do'/>">RESERVATION</a>
       <a href="<c:url value='/gallery.do'/>">GALLERY</a>
-      <a href="<c:url value='/mypage.do'/>">MYPAGE</a>
+      <c:if test="${not empty sessionScope.member}">
+		<a href="<c:url value='/member/mypage.do'/>">MYPAGE</a>
+	  </c:if>
       <a href="<c:url value='/review.do'/>">REVIEW</a>
     </nav>
+    
+	<c:choose>
+	  <c:when test="${not empty sessionScope.member}">
+	    <div style="display: flex; align-items: center; gap: 10px;">
+		  <div class="profile-wrapper">
+		      <img src="${contextPath}${sessionScope.member.profileImage}"
+		           alt="프로필 이미지">
+	      </div>
+	      <span style="font-weight: bold;">${sessionScope.member.name} 님</span>
+	      <a href="<c:url value='/member/logout.do'/>" class="header-link">로그아웃</a>
+	    </div>
+	  </c:when>
+	  <c:otherwise>
+	  	<div style="display: flex; align-items: center; gap: 10px;">
+		    <a href="<c:url value='/member/loginForm.do'/>" class="header-link">로그인</a>
+		    <a href="<c:url value='/member/registerForm.do'/>" class="header-link">회원가입</a>
+	    </div>
+	  </c:otherwise>
+	</c:choose>
 
   </div>
 </header>

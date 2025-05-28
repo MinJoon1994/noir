@@ -128,7 +128,7 @@
 
   <div class="login-container">
     <img src="${contextPath}/resources/image/noir_icon.png" class="brand-icon" alt="NOIR">
-    <div class="login-title"><a href="${contextPath}/main.do" class="main_title">NOIR</a></div>
+    <div class="login-title"><a href="${contextPath}/main.do" class="main_title" style="margin:0;">NOIR</a></div>
     
     <form class="login-form" action="${contextPath}/member/login.do" method="post">
       <input type="text" name="login_id" placeholder="아이디" required>

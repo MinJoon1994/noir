@@ -43,10 +43,12 @@
         text-align: center;
     }
 
-    .brand {
+    .brand a{
+    	text-decoration:none;
         font-size: 2rem;
         font-weight: bold;
         letter-spacing: 2px;
+        color:black;
     }
 
     .brand-sub {
@@ -127,7 +129,7 @@
         <!-- 가운데: 브랜드 -->
         <div class="header-center">
         	<img class="brand-icon" src="${contextPath}/resources/image/noir_icon.png">
-            <div class="brand">NOIR</div>
+            <div class="brand"><a href="${contextPath}/main.do">NOIR</a></div>
             <div class="brand-sub">누아르</div>
         </div>
 
@@ -159,11 +161,11 @@
         <a href="<c:url value='/about.do'/>">ABOUT</a>
         <a href="<c:url value='/menu.do'/>">MENU</a>
         <a href="<c:url value='/reservation/form.do'/>">RESERVATION</a>
-        <a href="<c:url value='/gallery/list.do'/>">GALLERY</a>
+        <a href="<c:url value='/gallery.do'/>">GALLERY</a>
         <c:if test="${not empty sessionScope.member}">
-		    <a href="<c:url value='/gift.do'/>">MYPAGE</a>
+		    <a href="<c:url value='/member/mypage.do'/>">MYPAGE</a>
 		</c:if>
-        <a href="<c:url value='/gift.do'/>">REVIEW</a>
+        <a href="<c:url value='/review.do'/>">REVIEW</a>
     </nav>
 
     <!-- 강조용 퍼플 라인 -->

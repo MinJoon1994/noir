@@ -102,7 +102,7 @@
 
   <div class="register-container">
     <img src="${contextPath}/resources/image/noir_icon.png" class="brand-icon" alt="NOIR">
-    <div class="register-title"><a href="${contextPath}/main.do" class="main_title">NOIR</a></div>
+    <div class="register-title"><a href="${contextPath}/main.do" class="main_title" style="margin:0;">NOIR</a></div>
 
 	<form class="register-form" action="${contextPath}/member/register.do" method="post">
 	  <input type="text" name="loginId" placeholder="아이디" value="${param.loginId}">
