@@ -44,8 +44,17 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
    
-<!--     http://localhost:8090/noir/main/main.do 주소를 입력하면  main화면을 요청! -->
-
+	<!--     http://localhost:8090/noir/main/main.do 주소를 입력하면  main화면을 요청! -->
+	<!-- default 서블릿 선언 추가 (이게 있어야 favicon.ico를 톰캣이 직접 처리 가능) -->
+	<servlet>
+	    <servlet-name>default</servlet-name>
+	    <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
+	    <load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>default</servlet-name>
+	    <url-pattern>/favicon.ico</url-pattern>
+	</servlet-mapping>
 </web-app>
 
 

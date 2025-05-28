@@ -41,7 +41,8 @@
 	});
 </script>
 	<title><tiles:insertAttribute name="title" /></title>
-	
+	<!-- 파비콘 링크 추가 -->
+    <link rel="icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon" />
 </head>
 <body>
 	<div id="outer_wrap">

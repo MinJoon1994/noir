@@ -129,10 +129,15 @@
   <div class="login-container">
     <img src="${contextPath}/resources/image/noir_icon.png" class="brand-icon" alt="NOIR">
     <div class="login-title"><a href="${contextPath}/main.do" class="main_title">NOIR</a></div>
-
+    
     <form class="login-form" action="${contextPath}/member/login.do" method="post">
-      <input type="text" name="memberId" placeholder="아이디" required>
-      <input type="password" name="memberPw" placeholder="비밀번호" required>
+      <input type="text" name="login_id" placeholder="아이디" required>
+      <input type="password" name="password" placeholder="비밀번호" required>
+      <c:if test="${not empty errorMsg}">
+		 <div style="color: red; font-size: 0.9rem; margin-top: 10px;">
+		   ${errorMsg}
+		 </div>
+	  </c:if>
       <button type="submit">로그인</button>
     </form>
     

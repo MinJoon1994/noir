@@ -93,13 +93,33 @@
     	margin-right:5px;
     	padding:5px;
     }
+    
+	.profile-wrapper {
+	    width: 30px;
+	    height: 30px;
+	    border: 3px solid #444;
+	    border-radius: 50%;
+	    overflow: hidden;
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    background-color: white; /* 이미지 없는 경우 대비 */
+	}
+	
+	.profile-wrapper img {
+		padding-top:5px;
+	    width: 100%;
+	    height: 100%;
+	    object-fit: cover;
+	    display: block;
+	}
 </style>
 <body>
 
 
 <header>
     <div class="header-container">
-        <!-- 왼쪽: 로그인/회원가입 -->
+        <!-- 왼쪽: SNS (아이콘은 추후 이미지나 font-awesome으로 대체 가능) -->
         <div class="header-left">
 			<a href="#" class="header-link">Instagram</a>
         </div>
@@ -111,11 +131,27 @@
             <div class="brand-sub">누아르</div>
         </div>
 
-        <!-- 오른쪽: SNS (아이콘은 추후 이미지나 font-awesome으로 대체 가능) -->
+        <!-- 오른쪽: 로그인/회원가입 로그인시엔 회원 이름 -->
         <div class="header-right">
-            <a href="<c:url value='/member/loginForm.do'/>" class="header-link">로그인</a>
-            <a href="<c:url value='/member/registerForm.do'/>" class="header-link">회원가입</a>
+        	<c:choose>
+			  <c:when test="${not empty sessionScope.member}">
+			    <div style="display: flex; align-items: center; gap: 10px;">
+				  <div class="profile-wrapper">
+				      <img src="${contextPath}${sessionScope.member.profileImage}"
+				           alt="프로필 이미지">
+			      </div>
+			      <span style="font-weight: bold;">${sessionScope.member.name} 님</span>
+			      <a href="<c:url value='/member/logout.do'/>" class="header-link">로그아웃</a>
+			    </div>
+			  </c:when>
+			  <c:otherwise>
+			    <a href="<c:url value='/member/loginForm.do'/>" class="header-link">로그인</a>
+			    <a href="<c:url value='/member/registerForm.do'/>" class="header-link">회원가입</a>
+			  </c:otherwise>
+			</c:choose>
         </div>
+        
+        
     </div>
 
     <!-- 메뉴 네비게이션 -->
@@ -124,7 +160,9 @@
         <a href="<c:url value='/menu.do'/>">MENU</a>
         <a href="<c:url value='/reservation/form.do'/>">RESERVATION</a>
         <a href="<c:url value='/gallery/list.do'/>">GALLERY</a>
-        <a href="<c:url value='/gift.do'/>">MYPAGE</a>
+        <c:if test="${not empty sessionScope.member}">
+		    <a href="<c:url value='/gift.do'/>">MYPAGE</a>
+		</c:if>
         <a href="<c:url value='/gift.do'/>">REVIEW</a>
     </nav>
 

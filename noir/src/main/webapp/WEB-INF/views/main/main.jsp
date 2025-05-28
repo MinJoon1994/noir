@@ -68,8 +68,9 @@ body {
   height: 400px; /* 원하는 높이로 조정 */
   gap:10px;
   overflow: hidden;
-  margin-top: 50px;
+  margin-top: 150px;
   margin-bottom: 150px;
+  
 }
 
 .main_food_img {
@@ -162,9 +163,20 @@ body {
   z-index: 1;
 }
 
+.fade-up {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+}
+
+.fade-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 </style>
 
-<div class="main_food_container">
+<div class="main_food_container fade-up">
   <img class="main_food_img" src="${contextPath}/resources/image/main_food1.png" alt="Food 1">
   <img class="main_food_img" src="${contextPath}/resources/image/main_food2.png" alt="Food 2">
   <img class="main_food_img" src="${contextPath}/resources/image/main_food3.png" alt="Food 3">
@@ -173,7 +185,7 @@ body {
 </div>
 
 <!-- 소개 + 예약 버튼 -->
-<div class="intro-section">
+<div class="intro-section fade-up">
   <h1>Welcome to NOIR</h1>
   <p>도심 속 고요함과 미각의 향연, 파인 다이닝 레스토랑 NOIR에 오신 것을 환영합니다.</p>
   <form action="${contextPath}/reservation" method="get">
@@ -187,7 +199,7 @@ body {
 
 
 <!-- 예약 버튼 아래에 추가 -->
-<div class="about_section">
+<div class="about_section fade-up">
   <div class="about_inner">
     <div class="about_image_wrapper">
       <img src="${contextPath}/resources/image/main_page2.png" alt="About Noir" class="about_image">
@@ -223,4 +235,17 @@ setInterval(() => {
   scenes[currentScene].classList.add('show');
 }, 3500); // 5초마다 장면 변경
 
+//메인 페이지 페이드아웃 -> 페이드 인 적용 익명 함수
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        observer.unobserve(entry.target); // 한 번만 실행
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.fade-up').forEach(section => {
+    observer.observe(section);
+  });
 </script>

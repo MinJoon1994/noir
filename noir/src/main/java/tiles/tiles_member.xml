@@ -14,13 +14,13 @@
        -->
 	
 	  <definition name="/member/loginForm" extends="baseLayout">
-         <put-attribute name="title" value="NOIR | 로그인" />
+         <put-attribute name="title" value="𝐍𝐎𝐈𝐑 | Login" />
          <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
          <put-attribute name="body" value="/WEB-INF/views/member/loginForm.jsp" />
       </definition>
       
       <definition name="/member/registerForm" extends="baseLayout">
-         <put-attribute name="title" value="NOIR | 회원가입" />
+         <put-attribute name="title" value="𝐍𝐎𝐈𝐑 | Join" />
          <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
          <put-attribute name="body" value="/WEB-INF/views/member/registerForm.jsp" />
       </definition>

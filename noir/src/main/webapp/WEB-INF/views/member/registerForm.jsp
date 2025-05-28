@@ -56,7 +56,7 @@
     }
 
     .register-form button:hover {
-      background-color: #333;
+      background-color: #452160;
     }
 
     .brand-icon {
@@ -78,6 +78,22 @@
 	  font-size: 0.85rem;
 	  text-align: left;
 	  margin: 0 0 10px 5px;
+	}
+	
+	.login-link {
+	  margin-top: 20px;
+	  font-size: 0.9rem;
+	  color: #666;
+	}
+	
+	.login-link a {
+	  color: #5A2A7C;
+	  text-decoration: none;
+	  font-weight: bold;
+	}
+	
+	.login-link a:hover {
+	  text-decoration: underline;
 	}
 
   </style>
@@ -108,9 +124,36 @@
 	  <c:if test="${not empty phoneError}">
 	    <div class="error-msg">${phoneError}</div>
 	  </c:if>
+	  
+	  <!-- 개인정보 동의 체크 -->
+	  <div style="text-align: left; margin-top: 20px;">
+		 <label>
+		   <input type="checkbox" name="agreePolicy" value="true" 
+		          ${param.agreePolicy eq 'true' ? 'checked' : ''}>
+		   [필수] 개인정보 처리방침에 동의합니다.
+		 </label>
+	  	 <c:if test="${not empty agreePolicyError}">
+		    <div class="error-msg">${agreePolicyError}</div>
+		 </c:if>
+	  </div>
+		
+	  <!-- 마케팅 수신 동의 -->
+	  <div style="text-align: left; margin-top: 10px;">
+		 <label>
+		   <input type="checkbox" name="agreeMarketing" value="true"
+		          ${param.agreeMarketing eq 'true' ? 'checked' : ''}>
+		   [선택] 마케팅 정보 수신에 동의합니다.
+		</label>
+	  </div>
+	  
 	
 	  <button type="submit">회원가입</button>
 	</form>
+	
+	<!-- 로그인 링크 -->
+	<div class="login-link">
+	  이미 회원이신가요? <a href="${contextPath}/member/loginForm.do">로그인</a>
+	</div>
   </div>
 
 </body>

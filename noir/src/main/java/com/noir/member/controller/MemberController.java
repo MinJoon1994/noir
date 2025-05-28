@@ -5,14 +5,17 @@ import java.net.http.HttpResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.support.HttpRequestHandlerServlet;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.noir.member.service.MemberService;
+import com.noir.member.vo.MemberVO;
 
 @Controller
 @RequestMapping("/member/*")
@@ -58,6 +61,7 @@ public class MemberController {
 		String password = req.getParameter("password");
 		String name = req.getParameter("name");
 		String phone = req.getParameter("phone");
+		String agreePolicy = req.getParameter("agreePolicy");
 		
 		boolean hasError = false;
 		
@@ -78,6 +82,11 @@ public class MemberController {
 	    	req.setAttribute("phoneError", "전화번호를 입력해주세요.");
 	    	hasError = true;
 	    }
+	    
+	    if (agreePolicy==null|| agreePolicy.isEmpty()) {
+	    	req.setAttribute("agreePolicyError", "개인정보 처리방침 동의는 필수 선택입니다.");
+	    	hasError =true;
+	    }
 
 	    if (hasError) {
 	        mav.setViewName("/member/registerForm");
@@ -90,5 +99,39 @@ public class MemberController {
 		
 	}
 	
+	@RequestMapping(value="/login.do",method=RequestMethod.POST)
+	public ModelAndView login(HttpServletRequest req, HttpServletResponse resp) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		//로그인 사용자 정보 받아오기
+		MemberVO member = memberService.login(req);
+		
+		if(member==null) {
+			mav.setViewName("/member/loginForm");
+			return mav;
+		}
+		
+		HttpSession session = req.getSession();
+		session.setAttribute("member", member);
+		
+		mav.setViewName("redirect:/main.do");
+		
+		return mav;
+	}
 	
+	@RequestMapping("/logout.do")
+	public ModelAndView logout(HttpServletRequest req,HttpServletResponse resp) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		HttpSession session = req.getSession();
+		
+		//세션 무효화
+		session.invalidate();
+		
+		mav.setViewName("redirect:/main.do");
+		
+		return mav;
+	}
 }
