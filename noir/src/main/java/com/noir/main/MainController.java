@@ -51,20 +51,6 @@ public class MainController {
 		return mav;
 	}
 	
-	//메뉴 페이지
-	@RequestMapping(value= "/menu.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView menu(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		
-		HttpSession session;
-		session=request.getSession();
-				
-		ModelAndView mav=new ModelAndView();
-		
-		String viewName=(String)request.getAttribute("viewName");
-		mav.setViewName(viewName);
-		
-		return mav;
-	}
 	
 	//갤러리 페이지
 	@RequestMapping(value= "/gallery.do" ,method={RequestMethod.POST,RequestMethod.GET})

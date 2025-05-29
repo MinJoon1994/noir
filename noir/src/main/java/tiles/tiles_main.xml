@@ -27,13 +27,7 @@
 		<put-attribute name="header" value="/WEB-INF/views/common/main_header.jsp" />
 		<put-attribute name="body" value="/WEB-INF/views/main/about.jsp" />
 	</definition>
-	
-	<definition name="/menu" extends="baseLayout">
-		<put-attribute name="title" value="𝐍𝐎𝐈𝐑 | menu" />
-		<put-attribute name="header" value="/WEB-INF/views/common/main_header.jsp" />
-		<put-attribute name="body" value="/WEB-INF/views/main/menu.jsp" />
-	</definition>
-	
+		
 	<definition name="/gallery" extends="baseLayout">
 		<put-attribute name="title" value="𝐍𝐎𝐈𝐑 | gallery" />
 		<put-attribute name="header" value="/WEB-INF/views/common/main_header.jsp" />

@@ -51,7 +51,7 @@
         </div>
         <div class="footer-address">
             서울특별시 강남구 모던로 123, 3층 &nbsp;&nbsp;|&nbsp;&nbsp; 사업자등록번호 123-45-67890  
-            <br/>대표자 김민준 &nbsp;&nbsp;|&nbsp;&nbsp; 대표번호 02-1234-5678
+            <br/>대표자 박세진 &nbsp;&nbsp;|&nbsp;&nbsp; 대표번호 02-1234-5678
         </div>
         <div style="margin-top: 10px; color: #aaa;">© 2025 NOIR. All rights reserved.</div>
     </div>

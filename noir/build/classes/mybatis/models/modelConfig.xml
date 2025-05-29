@@ -26,6 +26,8 @@
 	<!-- 또는 패키지 전체를 한 번에 등록 -->
 	<!-- <package name="com.noir.vo" /> -->
 	<typeAlias type="com.noir.member.vo.MemberVO" alias="MemberVO"/>
+	<typeAlias type="com.noir.menu.vo.MenuVO" alias="MenuVO"/>
+	<typeAlias type="com.noir.menu.vo.SupplementVO" alias="SupplementVO"/>
   </typeAliases>
 
   <!--

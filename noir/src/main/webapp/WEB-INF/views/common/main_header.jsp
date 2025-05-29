@@ -159,7 +159,7 @@
     <!-- 메뉴 네비게이션 -->
     <nav>
         <a href="<c:url value='/about.do'/>">ABOUT</a>
-        <a href="<c:url value='/menu.do'/>">MENU</a>
+        <a href="<c:url value='/menu/list.do?menuType='/>">MENU</a>
         <a href="<c:url value='/reservation/form.do'/>">RESERVATION</a>
         <a href="<c:url value='/gallery.do'/>">GALLERY</a>
         <c:if test="${not empty sessionScope.member}">
