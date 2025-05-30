@@ -24,26 +24,22 @@
 
     <select name="wine_type" class="wine-select">
       <option value="">종류 선택</option>
-      <option value="Red" ${param.wine_type == 'Red' ? 'selected' : ''}>Red</option>
-      <option value="White" ${param.wine_type == 'White' ? 'selected' : ''}>White</option>
-      <option value="Sparkling" ${param.wine_type == 'Sparkling' ? 'selected' : ''}>Sparkling</option>
-      <option value="Dessert" ${param.wine_type == 'Dessert' ? 'selected' : ''}>Dessert</option>
+      <option value="Red" ${param.wine_type == 'Red' ? 'selected' : ''}>𝐑𝐞𝐝</option>
+      <option value="White" ${param.wine_type == 'White' ? 'selected' : ''}>𝐖𝐡𝐢𝐭𝐞</option>
+      <option value="Sparkling" ${param.wine_type == 'Sparkling' ? 'selected' : ''}>𝐒𝐩𝐚𝐫𝐤𝐥𝐢𝐧𝐠</option>
+      <option value="Dessert" ${param.wine_type == 'Dessert' ? 'selected' : ''}>𝐃𝐞𝐬𝐬𝐞𝐫𝐭</option>
     </select>
 
     <select name="wine_category" class="wine-select">
       <option value="">카테고리 선택</option>
-      <option value="Full Bottle" ${param.wine_category == 'Full Bottle' ? 'selected' : ''}>Full Bottle</option>
-      <option value="By the Glass" ${param.wine_category == 'By the Glass' ? 'selected' : ''}>By the Glass</option>
+      <option value="Full Bottle" ${param.wine_category == 'Full Bottle' ? 'selected' : ''}>𝐅𝐮𝐥𝐥 𝐁𝐨𝐭𝐭𝐥𝐞</option>
+      <option value="By the Glass" ${param.wine_category == 'By the Glass' ? 'selected' : ''}>𝐁𝐲 𝐭𝐡𝐞 𝐆𝐥𝐚𝐬𝐬</option>
     </select>
 
     <button type="submit" class="wine-search-btn">검색</button>
   </div>
 </form>
   
-<div class="icon_box fade-up" style="margin-top:50px;">
-	<img src="${contextPath}/resources/image/noir_icon.png"/>
-</div>
-	
 	  <!-- 1. 처음 진입 시 와인 이미지 -->
 	  <c:if test="${wineList == null}">
 		<div class="wine-image-placeholder fade-up">
@@ -84,8 +80,11 @@
 	      검색 결과가 없습니다.
 	    </div>
 	  </c:if>
-  
-
+  	  
+  	 <div class="icon_box fade-up" style="margin-top:50px;">
+		<img src="${contextPath}/resources/image/noir_icon.png"/>
+	</div>
+	
 </div>
 <style>
 

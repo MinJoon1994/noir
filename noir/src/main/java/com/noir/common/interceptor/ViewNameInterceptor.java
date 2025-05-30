@@ -13,7 +13,7 @@ public class ViewNameInterceptor extends  HandlerInterceptorAdapter{
 			
 			   String viewName = getViewName(request);//  /main.do
 
-			   System.out.println("ViewNameInterceptor인터셉터 내부의 preHandle메소드가 만든 뷰주소 : " + viewName);
+			   //System.out.println("ViewNameInterceptor인터셉터 내부의 preHandle메소드가 만든 뷰주소 : " + viewName);
 			
 			   request.setAttribute("viewName", viewName);
 			   
@@ -28,7 +28,6 @@ public class ViewNameInterceptor extends  HandlerInterceptorAdapter{
 	   @Override
 	   public void postHandle(HttpServletRequest request, HttpServletResponse response,
 	                           Object handler, ModelAndView modelAndView) throws Exception {
-		   System.out.println("ViewNameIntercepter의 2번째 postHandle메소드가 호출 당함");
 	   }
 
 	   @Override

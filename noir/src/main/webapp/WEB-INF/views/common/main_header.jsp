@@ -123,7 +123,7 @@
     <div class="header-container">
         <!-- 왼쪽: SNS (아이콘은 추후 이미지나 font-awesome으로 대체 가능) -->
         <div class="header-left">
-			<a href="#" class="header-link">Instagram</a>
+			<a href="https://www.instagram.com/noir_table/" class="header-link">Instagram</a>
         </div>
 
         <!-- 가운데: 브랜드 -->
