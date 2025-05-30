@@ -1,6 +1,7 @@
 package com.noir.menu.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,9 +30,9 @@ public class MenuService {
 	}
 	
 	//와인리스트 가져오기
-	public List<WineVO> getWineList() {
+	public List<WineVO> getWineList(Map<String, Object> paramMap) {
 		
-		return menuDAO.selectWineList();
+		return menuDAO.selectWineList(paramMap);
 	}
 
 }

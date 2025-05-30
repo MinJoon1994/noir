@@ -13,7 +13,7 @@
       <a class="category-link" href="${contextPath}/menu/list.do?menuType=lunch">lunch</a>
       <a class="category-link" href="${contextPath}/menu/list.do?menuType=dinner">dinner</a>
       <a class="category-link" href="${contextPath}/menu/list.do?menuType=vegan">vegan</a>
-      <a class="category-link" href="${contextPath}/menu/winelist.do">winelist</a>
+      <a class="category-link" href="${contextPath}/menu/wine.do">winelist</a>
     </div>
   </div>
   <c:if test="${sessionScope.member.role eq 'ADMIN'}">

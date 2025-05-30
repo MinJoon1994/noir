@@ -79,9 +79,25 @@
         FROM noir_supplement_menu
     </select>
 	
-	<select id="selectWineList" resultMap="wineResult">
-		SELECT *
-		FROM noir_wine
-	</select> 
+	<select id="selectWineList" parameterType="map" resultMap="wineResult">
+		SELECT * FROM noir_wine
+		WHERE 1 = 1
+	<if test="wine_name != null and wine_name != ''">
+	  	AND wine_name LIKE '%' || #{wine_name} || '%'
+	</if>
+	<if test="wine_type != null">
+	  	AND wine_type = #{wine_type}
+	</if>
+	<if test="region != null">
+	  	AND region = #{region}
+	</if>
+	<if test="vintage != null">
+	  	AND vintage = #{vintage}
+	</if>
+	<if test="wine_category != null">
+	  	AND wine_category = #{wine_category}
+	</if>
+		ORDER BY wine_name
+	</select>
 	 
 </mapper>

@@ -1,6 +1,7 @@
 package com.noir.menu.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,9 @@ public class MenuDAO {
 	}
 	
 	//와인 리스트 가져오기
-	public List<WineVO> selectWineList() {
+	public List<WineVO> selectWineList(Map<String, Object> paramMap) {
 		
-		return sqlSession.selectList("mapper.menu.selectWineList");
+		return sqlSession.selectList("mapper.menu.selectWineList",paramMap);
 	}
 
 }
