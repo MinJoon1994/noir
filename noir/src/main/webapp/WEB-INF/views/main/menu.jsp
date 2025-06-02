@@ -7,8 +7,13 @@
 
 <!-- 메뉴 페이지 -->
 
+
 <div class="menu-container fade-up">
-  <div class="menu-header">
+  <div class="icon_box fade-up" style="margin-top:30px; margin-bottom:20px;">
+	 <img src="${contextPath}/resources/image/noir_icon.png"/>
+  </div>
+
+  <div class="menu-header fade-up">
     <div class="menu-categories">
       <a class="category-link" href="${contextPath}/menu/list.do?menuType=lunch">lunch</a>
       <a class="category-link" href="${contextPath}/menu/list.do?menuType=dinner">dinner</a>

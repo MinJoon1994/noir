@@ -6,6 +6,10 @@
 <% request.setCharacterEncoding("UTF-8"); %>
 
 <div class="wine-container">
+<div class="icon_box fade-up" style="margin-top:30px; margin-bottom:20px;">
+	<img src="${contextPath}/resources/image/noir_icon.png"/>
+</div>
+
 <!-- 와인 리스트 페이지 -->
 <div class="menu-header fade-up">
   <div class="menu-categories fade-up">

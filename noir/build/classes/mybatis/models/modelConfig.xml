@@ -28,6 +28,7 @@
 	<typeAlias type="com.noir.member.vo.MemberVO" alias="MemberVO"/>
 	<typeAlias type="com.noir.menu.vo.MenuVO" alias="MenuVO"/>
 	<typeAlias type="com.noir.menu.vo.SupplementVO" alias="SupplementVO"/>
+	<typeAlias type="com.noir.gallery.vo.PhotoVO" alias="PhotoVO"/>
   </typeAliases>
 
   <!--
