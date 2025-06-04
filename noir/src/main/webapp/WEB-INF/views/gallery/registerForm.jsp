@@ -85,22 +85,73 @@ select {
   color: #fff;
 }
 
+  .custom-file-button {
+    padding: 10px 20px;
+    background-color: white;
+    color: #452160;
+    border: none;
+    border-radius: 6px;
+    border:1px solid #452160;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 14px;
+    margin-bottom:20px;
+  }
+
+  .custom-file-button:hover {
+    background-color: #452160;
+    color:white;
+  }
+
+  /* 실제 input은 숨김 */
+  #photoFile {
+    display: none;
+  }
+  
+.icon_box{
+  display:flex;
+  justify-content:center;
+}
+
+.icon_box img{
+	width:50px;
+	height:50px;
+}
+	
+.fade-up {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+}
+
+.fade-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* 센터 정렬 */
 .text-center {
   text-align: center;
 }
 </style>
 
-<div class="photoForm-container">
-	<h2 class="form-title">📸 Noir 사진 등록</h2>
+<div class="photoForm-container fade-up">
+    <div class="icon_box fade-up" style="margin-top:30px; margin-bottom:20px;">
+	    <img src="${contextPath}/resources/image/noir_icon.png"/>
+    </div>
+
+	<h2 class="form-title">Noir 사진 등록</h2>
 	
 	<form id="uploadForm" action="${contextPath}/gallery/upload.do"
 	      method="post" enctype="multipart/form-data">
 	
-	  <div class="form-group">
-	    <label for="photoFile">사진 파일 업로드</label>
-	    <input type="file" id="photoFile" name="photoFile" accept="image/*" required onchange="previewImage(this)">
-	  </div>
+	<button type="button" class="custom-file-button" onclick="document.getElementById('photoFile').click();">
+	  사진 선택
+	</button>
+	
+	<!-- 숨겨진 파일 인풋 -->
+	<input type="file" id="photoFile" name="photoFile" accept="image/*" onchange="previewImage(this)">
+
 	
 	  <div class="form-group">
 	    <label for="photoType">사진 분류</label>
@@ -141,4 +192,18 @@ function previewImage(input) {
   }
 }
 
+
+//메인 페이지 페이드아웃 -> 페이드 인 적용 익명 함수
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        observer.unobserve(entry.target); // 한 번만 실행
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.fade-up').forEach(section => {
+    observer.observe(section);
+  });
 </script>

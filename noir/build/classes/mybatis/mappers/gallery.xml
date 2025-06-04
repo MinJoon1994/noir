@@ -30,7 +30,7 @@
 	</insert>
 	
 	<select id="selectAllPhotos" resultMap="photoResult">
-		SELECT * FROM NOIR_PHOTO
+		SELECT * FROM NOIR_PHOTO ORDER BY PHOTO_ID DESC
 	</select>
 	
 	<delete id="deleteByPhotoUrl" parameterType="String">

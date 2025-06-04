@@ -22,7 +22,7 @@
     </div>
   </div>
   <c:if test="${sessionScope.member.role eq 'ADMIN'}">
-    <a href="${contextPath}/menu/edit" class="menu-edit-btn">메뉴 수정</a>
+    <a href="${contextPath}/menu/edit.do" class="menu-edit-btn">메뉴 관리</a>
   </c:if>
 
   <div id="menuList" class="menu-list">

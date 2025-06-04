@@ -81,8 +81,6 @@ public class GalleryController {
 	@ResponseBody
 	public Map<String, Object> deletePhoto(@RequestBody Map<String, String> body, HttpSession session) {
 		
-		System.out.println("사진 삭제요청 들어왔어요");
-		
 	    Map<String, Object> result = new HashMap<>();
 
 	    String photoUrl = body.get("photoUrl");

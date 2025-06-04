@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -99,6 +100,123 @@ public class MenuController {
 		mav.setViewName(viewName);
 		
 		return mav;
+	}
+	
+	//메뉴 수정 화면
+	@RequestMapping("/edit.do")
+	public ModelAndView menuEdit(HttpServletRequest req,HttpServletResponse resp) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		String viewName=(String)req.getAttribute("viewName");
+		mav.setViewName(viewName);
+		
+		return mav;
+		
+	}
+	
+	//메뉴타입으로 메뉴 수정 페이지 불러오기
+	@RequestMapping("/editMenu.do")
+	public ModelAndView menuEdit(@RequestParam String menuType,
+								 HttpServletRequest req,
+								 HttpServletResponse resp) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		if(menuType.equals("supplement")) {
+			//보충메뉴 메뉴리스트 불러오기
+			List<SupplementVO> supplementList = menuService.getSupplementMenu();
+			mav.addObject("supplementList",supplementList);
+			//메뉴타입 전달 => 메뉴 추가시에 메뉴타입 이용
+			mav.addObject("menuType",menuType);
+		}
+		else {
+			//메뉴타입으로 메뉴리스트 불러오기
+			List<MenuVO> menuList = menuService.getMenusByType(menuType);
+			mav.addObject("menuList",menuList);
+			//메뉴타입 전달 => 메뉴 추가시에 메뉴타입 이용
+			mav.addObject("menuType",menuType);
+		}
+		
+		String viewName=(String)req.getAttribute("viewName");
+		mav.setViewName(viewName);
+		
+		return mav;
+		
+	}
+	
+	//비동기 요청으로 메뉴 수정
+	@RequestMapping(value = "/updateMenu",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> updateMenu(@RequestBody Map<String,Object> data) throws Exception{
+		
+		Map<String, Object> result = new HashMap<>();
+		
+	    try {
+	        // 필드 추출
+	    	int order = Integer.parseInt(data.get("order").toString());
+	        int id = Integer.parseInt(data.get("id").toString());
+	        String name = data.get("name").toString();
+	        String englishName = data.get("englishName").toString();
+	        String description = data.get("description").toString();
+
+	        // 보충 메뉴인지 일반 메뉴인지 판단
+	        if (data.containsKey("type") && data.containsKey("price")) {
+	            // 보충메뉴 업데이트
+	            String type = data.get("type").toString();
+	            int price = Integer.parseInt(data.get("price").toString());
+
+	            SupplementVO supplement = new SupplementVO();
+	            supplement.setMenu_id(id);
+	            supplement.setMenu_name(name);
+	            supplement.setMenu_english_name(englishName);
+	            supplement.setMenu_description(description);
+	            supplement.setMenu_type(type);
+	            supplement.setMenu_price(price);
+
+	            menuService.updateSupplementMenu(supplement);
+
+	        } else {
+	            // 일반 메뉴 업데이트
+	            MenuVO menu = new MenuVO();
+	            menu.setMenu_order(order);
+	            menu.setMenu_id(id);
+	            menu.setMenu_name(name);
+	            menu.setMenu_english_name(englishName);
+	            menu.setMenu_description(description);
+
+	            menuService.updateMenu(menu);
+	        }
+
+	        result.put("success", true);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        result.put("success", false);
+	        result.put("error", e.getMessage());
+	    }
+
+	    return result;
+        
+	}
+	
+	//비동기 요청으로 메뉴 순서 수정
+	@RequestMapping(value = "/swapOrder",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> swapOrder(@RequestBody Map<String,Object> data) throws Exception{
+		
+			// 필드 추출
+			int currentOrder = Integer.parseInt(data.get("currentOrder").toString());
+			int currentId = Integer.parseInt(data.get("currentId").toString());
+			int targetId = Integer.parseInt(data.get("targetId").toString());
+			int targetOrder = Integer.parseInt(data.get("targetOrder").toString());
+			
+			boolean success = menuService.swapOrder(currentId,currentOrder,targetId,targetOrder);
+			
+		    Map<String, Object> response = new HashMap<>();
+		    response.put("success", success);
+		    return response;
+		
 	}
 	
 

@@ -8,8 +8,15 @@ public class MenuVO {
 	String menu_english_name;
 	String menu_description;
 	String menu_type;
+	int menu_order;
 	int photo_id;
 	
+	public int getMenu_order() {
+		return menu_order;
+	}
+	public void setMenu_order(int menu_order) {
+		this.menu_order = menu_order;
+	}
 	public String getMenu_english_name() {
 		return menu_english_name;
 	}

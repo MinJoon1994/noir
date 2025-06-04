@@ -1,5 +1,6 @@
 package com.noir.menu.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,22 +18,44 @@ public class MenuDAO {
 	@Autowired
 	SqlSession sqlSession;
 	
-	//코스 메뉴 가져오기
+	//1. 코스 메뉴 가져오기
 	public List<MenuVO> selectByType(String menuType) {
 		
 		return sqlSession.selectList("mapper.menu.selectMenuByType",menuType);
 	}
 	
-	//보충 메뉴 가져오기
+	//2. 보충 메뉴 가져오기
 	public List<SupplementVO> selectSupplementMenu() {
 		
 		return sqlSession.selectList("mapper.menu.selectSupplementMenu");
 	}
 	
-	//와인 리스트 가져오기
+	//3. 와인 리스트 가져오기
 	public List<WineVO> selectWineList(Map<String, Object> paramMap) {
 		
 		return sqlSession.selectList("mapper.menu.selectWineList",paramMap);
+	}
+	
+	//4. 보충 메뉴 수정
+	public void updateSupplementMenu(SupplementVO supplement) {
+		
+		sqlSession.update("mapper.menu.updateSupplementMenu",supplement);
+	}
+	
+	//5. 코스 메뉴 수정
+	public void updateMenu(MenuVO menu) {
+		
+		sqlSession.update("mapper.menu.updateMenu",menu);
+	}
+	
+	//6. 메뉴 순서 변경 요청
+	public void swapOrder(int currentId, int targetOrder) {
+		Map<String,Integer> paramMap= new HashMap<>();
+		paramMap.put("id",currentId);
+		paramMap.put("order", targetOrder);
+		
+		sqlSession.update("mapper.menu.swapOrder",paramMap);
+		
 	}
 
 }

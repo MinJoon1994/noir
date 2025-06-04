@@ -1,5 +1,6 @@
 package com.noir.menu.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,26 @@ public class MenuService {
 	public List<WineVO> getWineList(Map<String, Object> paramMap) {
 		
 		return menuDAO.selectWineList(paramMap);
+	}
+	
+	//보충메뉴 수정
+	public void updateSupplementMenu(SupplementVO supplement) {
+		menuDAO.updateSupplementMenu(supplement);
+		
+	}
+	
+	//메뉴 수정
+	public void updateMenu(MenuVO menu) {
+		menuDAO.updateMenu(menu);
+		
+	}
+
+	public boolean swapOrder(int currentId, int currentOrder, int targetId, int targetOrder) {
+		
+		menuDAO.swapOrder(currentId,targetOrder);
+		menuDAO.swapOrder(targetId,currentOrder);
+		
+		return true;
 	}
 
 }

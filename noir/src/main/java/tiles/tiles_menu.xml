@@ -16,6 +16,17 @@
 		<put-attribute name="body" value="/WEB-INF/views/main/wine.jsp" />
 	</definition>
 	
+	<definition name="/menu/edit" extends="baseLayout">
+		<put-attribute name="title" value="𝐍𝐎𝐈𝐑 | menu"/>
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/menu/edit.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="/menu/editMenu" extends="baseLayout">
+		<put-attribute name="title" value="𝐍𝐎𝐈𝐑 | menu"/>
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp"></put-attribute>
+		<put-attribute name="body" value="/WEB-INF/views/menu/editMenu.jsp"></put-attribute>
+	</definition>
 </tiles-definitions>
 
 

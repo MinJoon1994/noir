@@ -29,6 +29,7 @@
 	    <result property="menu_english_name" column="menu_english_name"/>
 	    <result property="menu_description" column="menu_description"/>
 	    <result property="menu_type" column="menu_type"/>
+	    <result property="menu_order" column="menu_order"/>
 	    <result property="photo_id" column="photo_id"/>
 	</resultMap>
 	
@@ -71,7 +72,7 @@
         SELECT *
         FROM noir_menu
         WHERE menu_type = #{menuType}
-        ORDER BY menu_id ASC
+        ORDER BY menu_order ASC
     </select>
     
 	<select id="selectSupplementMenu" resultMap="supplementResult">
@@ -100,4 +101,28 @@
 		ORDER BY wine_name
 	</select>
 	 
+	<update id="updateSupplementMenu" parameterType="SupplementVO">
+		  UPDATE noir_supplement_menu
+		  SET menu_name = #{menu_name},
+		      menu_english_name = #{menu_english_name},
+		      menu_description = #{menu_description},
+		      menu_type = #{menu_type},
+		      menu_price = #{menu_price}
+		  WHERE menu_id = #{menu_id}
+	</update> 
+	
+	<update id="updateMenu" parameterType="MenuVO">
+		  UPDATE noir_menu
+		  SET menu_name = #{menu_name},
+		      menu_english_name = #{menu_english_name},
+		      menu_description = #{menu_description},
+		      menu_order = #{menu_order}
+		  WHERE menu_id = #{menu_id}
+	</update>
+	
+	<update id="swapOrder" parameterType="map">
+		  UPDATE noir_menu
+		  SET menu_order = #{order}
+		  WHERE menu_id = #{id}
+	</update>
 </mapper>
