@@ -115,8 +115,7 @@
 		  UPDATE noir_menu
 		  SET menu_name = #{menu_name},
 		      menu_english_name = #{menu_english_name},
-		      menu_description = #{menu_description},
-		      menu_order = #{menu_order}
+		      menu_description = #{menu_description}
 		  WHERE menu_id = #{menu_id}
 	</update>
 	
@@ -125,4 +124,47 @@
 		  SET menu_order = #{order}
 		  WHERE menu_id = #{id}
 	</update>
+	
+	<insert id="insertSupplementMenu" parameterType="map">
+		  insert into noir_supplement_menu
+		  (menu_id,menu_name,menu_english_name,menu_description,menu_type,menu_price)
+		  values
+		  (seq_noir_supplement_menu_id.NEXTVAL,#{menu_name},#{menu_english_name},#{menu_description},#{menu_type},#{menu_price})
+	</insert>
+	
+	<select id="selectMaxOrderByType" parameterType="String" resultType="int">
+	  SELECT NVL(MAX(menu_order), 0)
+	  FROM noir_menu
+	  WHERE menu_type = #{menuType}
+	</select>
+	
+	<insert id="insertMenu" parameterType="map">
+		  insert into noir_menu
+		  (menu_id,menu_name,menu_english_name,menu_description,menu_type,menu_order)
+		  values
+		  (seq_noir_menu_id.NEXTVAL,#{menu_name},#{menu_english_name},#{menu_description},#{menu_type},#{menu_order})
+	</insert>
+	
+	<delete id="deleteSupplementMenu" parameterType="int">
+		delete from noir_supplement_menu where menu_id=#{menu_id}
+	</delete>
+	
+	<delete id="deleteMenu" parameterType="int">
+		delete from noir_menu where menu_id=#{menu_id}
+	</delete>
+	
+	<select id="findPhotoIdByMenuId" parameterType="int" resultType="Integer">
+		select photo_id from noir_menu where menu_id=#{menu_id}
+	</select>
+	
+	<insert id="insertWine" parameterType="map">
+		insert into noir_wine
+		(wine_id,wine_name,wine_type,region,vintage,producer,price,bottle_size,description,wine_category)
+		values
+		(seq_noir_wine_id.NEXTVAL,#{wine_name},#{wine_type},#{region},#{vintage},#{producer},#{price},#{bottle_size},#{description},#{wine_category})
+	</insert>
+	
+	<delete id="wineDelete" parameterType="int">
+		delete from noir_wine where wine_id=#{wineId}
+	</delete>
 </mapper>

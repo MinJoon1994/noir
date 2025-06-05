@@ -57,5 +57,59 @@ public class MenuDAO {
 		sqlSession.update("mapper.menu.swapOrder",paramMap);
 		
 	}
+	
+	//7. 보충 메뉴 추가
+	public void insertSupplementMenu(SupplementVO supplement) {
+		
+		sqlSession.insert("mapper.menu.insertSupplementMenu",supplement);
+		
+	}
+	
+	//8. 메뉴타입으로 가장 높은 메뉴 순서 값 가져오기
+	public int selectMaxOrderByType(String menuType) {
+		
+		return sqlSession.selectOne("mapper.menu.selectMaxOrderByType",menuType);
+	}
+	
+	//9. 코스 메뉴 추가
+	public void insertMenu(MenuVO menu) {
+		
+		sqlSession.insert("mapper.menu.insertMenu",menu);
+		
+	}
+	
+	//10. 보충 메뉴 삭제
+	public void deleteSupplementMenu(int menu_id) {
+		sqlSession.delete("mapper.menu.deleteSupplementMenu",menu_id);
+		
+	}
+	
+	//11. 코스 메뉴 삭제
+	public void deleteMenu(int menu_id) {
+		sqlSession.delete("mapper.menu.deleteMenu",menu_id);
+		
+	}
+
+	public Integer findPhotoIdByMenuId(int menu_id) {
+		
+		return sqlSession.selectOne("mapper.menu.findPhotoIdByMenuId",menu_id);
+	}
+
+	public void deletePhoto(int photoId) {
+		
+		sqlSession.delete("mapper.gallery.deletePhoto",photoId);
+		
+	}
+
+	public void insertWine(WineVO wineVO) {
+		
+		sqlSession.insert("mapper.menu.insertWine",wineVO);
+		
+	}
+
+	public void deleteWine(int wineId) {
+		sqlSession.delete("mapper.menu.wineDelete",wineId);
+		
+	}
 
 }

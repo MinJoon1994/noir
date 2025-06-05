@@ -13,7 +13,7 @@
   </div>  
   
   <div class="menu-header fade-up">
-  	<h1>메뉴 관리</h1>
+  	<h1>${menuType} 메뉴 관리</h1>
   </div>
   
   <div class="menu-type-buttons fade-up">
@@ -25,9 +25,10 @@
 
 
   
-  <c:if test="${sessionScope.member.role eq 'ADMIN'}">
-    <button onclick="location.href='${contextPath}/menu/new.do?menuType=${menuType}'" class="btn-add fade-up">메뉴 추가</button>
-  </c:if>
+
+  <!-- 수정: 모달 열기 -->
+  <button class="btn-add fade-up" onclick="toggleAddRow()">메뉴 추가</button>
+  
   <div class="menu-table fade-up">
   	<table>
   		<thead>
@@ -50,6 +51,34 @@
   			</tr>
   		</thead>
   		<tbody>
+			<tr id="addMenuRow-basic" style="display:none; background-color: #f9f9f9;">
+			  <td colspan="6">
+			    <div style="display:flex; gap:10px; align-items:center; padding:10px;">
+			      <input type="text" id="newMenuName" placeholder="이름" style="flex:1;">
+			      <input type="text" id="newMenuEnglishName" placeholder="영문명" style="flex:1;">
+			      <input type="text" id="newMenuDescription" placeholder="설명" style="flex:2;">
+			      <button type="button" onclick="addMenu('basic')" class="btn-edit">추가</button>
+			      <button onclick="toggleAddRow()" class="btn-cancel">취소</button>
+			    </div>
+			  </td>
+			</tr>
+			<tr id="addMenuRow-supplement" style="display:none; background-color: #f9f9f9;">
+			  <td colspan="6">
+			    <div style="display:flex; gap:10px; align-items:center; padding:10px;">
+			      <input type="text" id="newMenuName_s" placeholder="이름" style="flex:1;">
+			      <input type="text" id="newMenuEnglishName_s" placeholder="영문명" style="flex:1;">
+			      <input type="text" id="newMenuDescription_s" placeholder="설명" style="flex:2;">
+			      <select id="newMenuType_s" style="flex:1;">
+			        <option value="">선택</option>
+			        <option value="DESSERT">Dessert</option>
+			        <option value="PREMIUM">Premium</option>
+			      </select>
+			      <input type="number" id="newMenuPrice_s" placeholder="가격" style="width:100px;">
+			      <button type="button" onclick="addMenu('supplement')" class="btn-edit">추가</button>
+			      <button onclick="toggleAddRow()" class="btn-cancel">취소</button>
+			    </div>
+			  </td>
+			</tr>
   			<c:if test="${not empty menuList}">
   			<c:forEach var="menu" items="${menuList}" varStatus="status">
   			<tr data-id="${menu.menu_id}" data-order="${menu.menu_order}">
@@ -64,12 +93,12 @@
 					    </div>
 				    </div>
   				</td>
-  				<td><span class="text-mode">${menu.menu_name}</span><input class="edit-mode" type="text" value="${menu.menu_name}" style="display:none;"></td>
-  				<td><span class="text-mode">${menu.menu_english_name}</span><input class="edit-mode" type="text" value="${menu.menu_english_name}" style="display:none;"></td>
-  				<td><span class="text-mode">${menu.menu_description}</span><input class="edit-mode" type="text" value="${menu.menu_description}" style="display:none;"></td>
+  				<td><span class="text-mode">${menu.menu_name}</span><input class="edit-mode" name="menu_name" type="text" value="${menu.menu_name}" style="display:none;"></td>
+  				<td><span class="text-mode">${menu.menu_english_name}</span><input class="edit-mode" name="menu_english_name" type="text" value="${menu.menu_english_name}" style="display:none;"></td>
+  				<td><span class="text-mode">${menu.menu_description}</span><input class="edit-mode" type="text" name="menu_description" value="${menu.menu_description}" style="display:none;"></td>
 				<td>
 					<button class="btn-edit" onclick="toggleEdit(this)">메뉴 수정</button>
-					<button class="btn-photo" onclick="location.href='${contextPath}/main.do'">사진 등록</button>
+					<button class="btn-delete" onclick="deleteMenu(${menu.menu_id}, '${menuType}')">메뉴 삭제</button>	
 				</td>
 			</tr>
   			</c:forEach>
@@ -78,14 +107,21 @@
   			<c:if test="${not empty supplementList}">
   			<c:forEach var="menu" items="${supplementList}" varStatus="status">
   			<tr data-id="${menu.menu_id}">
-  				<td><span class="text-mode">${menu.menu_name}</span><input class="edit-mode" type="text" value="${menu.menu_name}" style="display:none;"></td>
-  				<td><span class="text-mode">${menu.menu_english_name}</span><input class="edit-mode" type="text" value="${menu.menu_english_name}" style="display:none;"></td>
-  				<td><span class="text-mode">${menu.menu_description}</span><input class="edit-mode" type="text" value="${menu.menu_description}" style="display:none;"></td>
-  				<td><span class="text-mode">${menu.menu_type}</span><input class="edit-mode" type="text" value="${menu.menu_type}" style="display:none;"></td>
-  				<td><span class="text-mode">${menu.menu_price}</span><input class="edit-mode" type="number" value="${menu.menu_price}" style="display:none;"></td>
-				<td style="display:flex; width:200px; gap:5px;">
+  				<td><span class="text-mode">${menu.menu_name}</span><input class="edit-mode" name="menu_name" type="text" value="${menu.menu_name}" style="display:none;"></td>
+  				<td><span class="text-mode">${menu.menu_english_name}</span><input class="edit-mode" name="menu_english_name" type="text" value="${menu.menu_english_name}" style="display:none;"></td>
+  				<td><span class="text-mode">${menu.menu_description}</span><input class="edit-mode" name="menu_description" type="text" value="${menu.menu_description}" style="display:none;"></td>
+				<td>
+				  <span class="text-mode">${menu.menu_type}</span>
+				  <select class="edit-mode" name="menu_type" style="display:none;">
+				    <option value="">선택</option>
+				    <option value="DESSERT" ${menu.menu_type eq 'DESSERT' ? 'selected' : ''}>Dessert</option>
+				    <option value="PREMIUM" ${menu.menu_type eq 'PREMIUM' ? 'selected' : ''}>Premium</option>
+				  </select>
+				</td>
+  				<td><span class="text-mode">${menu.menu_price}</span><input class="edit-mode" name="menu_price" type="number" value="${menu.menu_price}" style="display:none;"></td>
+				<td style="width:300px;">
 					<button class="btn-edit" onclick="toggleEdit(this)">메뉴 수정</button>
-					<button class="btn-photo" onclick="location.href='${contextPath}/main.do'">사진 등록</button>					
+					<button class="btn-delete" onclick="deleteMenu(${menu.menu_id}, '${menuType}')">메뉴 삭제</button>			
 				</td>
 			</tr>
   			</c:forEach>
@@ -96,6 +132,99 @@
 </div>
 
 <script>
+	//메뉴 삭제
+	function deleteMenu(menuId, menuType) {
+	  if (!confirm('정말 이 메뉴를 삭제하시겠습니까?')) return;
+	
+	  fetch('${contextPath}/menu/deleteMenu', {
+	    method: 'POST',
+	    headers: {
+	      'Content-Type': 'application/json'
+	    },
+	    body: JSON.stringify({
+	      menuId: menuId,
+	      menuType: menuType
+	    })
+	  })
+	  .then(res => res.json())
+	  .then(result => {
+	    if (result.success) {
+	      alert('메뉴가 삭제되었습니다.');
+	      location.reload();
+	    } else {
+	      alert('삭제 실패!');
+	    }
+	  });
+	}
+
+	//메뉴 추가 토글
+	function toggleAddRow() {
+	  const menuType = '${menuType}';
+	  const basicRow = document.getElementById('addMenuRow-basic');
+	  const supplementRow = document.getElementById('addMenuRow-supplement');
+	  const addBtn = document.querySelector('.btn-add');
+
+	  if (menuType === 'supplement') {
+	    if (!supplementRow) return alert('supplement 행이 없습니다');
+	    const isVisible = supplementRow.style.display === 'table-row';
+	    supplementRow.style.display = isVisible ? 'none' : 'table-row';
+	    addBtn.textContent = isVisible ? '메뉴 추가' : '닫기';
+	  } else {
+	    if (!basicRow) return alert('기본 메뉴 행이 없습니다');
+	    const isVisible = basicRow.style.display === 'table-row';
+	    basicRow.style.display = isVisible ? 'none' : 'table-row';
+	    addBtn.textContent = isVisible ? '메뉴 추가' : '닫기';
+	  }
+	}
+	
+	//비동기 메뉴 추가
+	function addMenu(type) {
+		
+		  let data = { menuType: '${menuType}' };
+
+		  if (type === 'basic') {
+		    data.name = document.getElementById('newMenuName').value.trim();
+		    data.englishName = document.getElementById('newMenuEnglishName').value.trim();
+		    data.description = document.getElementById('newMenuDescription').value.trim();
+		  } else if (type === 'supplement') {
+		    data.name = document.getElementById('newMenuName_s').value.trim();
+		    data.englishName = document.getElementById('newMenuEnglishName_s').value.trim();
+		    data.description = document.getElementById('newMenuDescription_s').value.trim();
+		    data.type = document.getElementById('newMenuType_s').value;
+		    data.price = document.getElementById('newMenuPrice_s').value;
+		  }
+		
+		  console.log(data.name);
+		  console.log(data.englishName);
+		  console.log(data.description);
+		  
+		  // 필수 체크 (간단하게 예제로)
+		  if (!data.name || !data.englishName || !data.description) {
+		    alert('모든 값을 입력해주세요.');
+		    return;
+		  }
+		  
+		  if((type === 'supplement' && (!data.type || !data.price))) {
+			  alert('모든 값을 입력해주세요.');
+			  return;
+		  }
+
+		  fetch('${contextPath}/menu/addMenu', {
+		    method: 'POST',
+		    headers: { 'Content-Type': 'application/json' },
+		    body: JSON.stringify(data)
+		  })
+		  .then(res => res.json())
+		  .then(result => {
+		    if (result.success) {
+		      alert('메뉴가 추가되었습니다!');
+		      location.reload();
+		    } else {
+		      alert('추가 실패!');
+		    }
+		  });
+	}
+
 	function goEditMenu(menuType) {
 	  location.href = '${contextPath}/menu/editMenu.do?menuType=' + menuType;
 	}
@@ -104,23 +233,29 @@
 	  const row = button.closest('tr');
 	  const spans = row.querySelectorAll('.text-mode');
 	  const inputs = row.querySelectorAll('.edit-mode');
-	  const photoBtn = row.querySelector('.btn-photo'); // 사진 등록 버튼
+	  const deleteBtn = row.querySelector('.btn-delete'); // 사진 등록 버튼
 	  const cancelBtn = row.querySelector('.btn-cancel'); // 사진 등록 버튼
 	  const isEditing = button.textContent === '수정완료';
-
+	  const menuId = row.dataset.id;
+	  const menuType = row.dataset.type;
+	  const nameInput = row.querySelector('input[name="menu_name"]');
+	  const engInput = row.querySelector('input[name="menu_english_name"]');
+	  const descInput = row.querySelector('input[name="menu_description"]');
+	  const typeInput = row.querySelector('select[name="menu_type"]');
+	  const priceInput = row.querySelector('input[name="menu_price"]');
+	  
 	  if (isEditing) {
 	    // 수정 완료 처리 (AJAX)
 	    const data = {
 	      id: row.dataset.id,
-	      order: inputs[0].value,
-	      name: inputs[1].value,
-	      englishName: inputs[2].value,
-	      description: inputs[3].value,
+	      name: nameInput.value.trim(),
+	      englishName: engInput.value.trim(),
+	      description: descInput.value.trim(),
 	    };
 
-	    if (inputs.length > 4) {
-	      data.type = inputs[4].value;
-	      data.price = inputs[5].value;
+	    if (typeInput && priceInput) {
+	      data.type = typeInput.value.trim();
+	      data.price = priceInput.value.trim();
 	    }
 
 	    fetch('${contextPath}/menu/updateMenu', {
@@ -134,17 +269,7 @@
 	    .then(result => {
 	      if (result.success) {
 	        alert('수정 완료!');
-	        // 값 반영
-	        inputs.forEach((input, i) => spans[i].textContent = input.value);
-	        inputs.forEach(input => input.style.display = 'none');
-	        spans.forEach(span => span.style.display = 'inline');
-	        button.textContent = '메뉴 수정';
-
-	        // 📌 사진등록 버튼 복구
-	        cancelBtn.textContent = '사진 등록';
-	        cancelBtn.onclick = null;
-	        cancelBtn.classList.remove('btn-cancel');
-	        cancelBtn.classList.add('btn-photo');
+	        location.reload();
 	      } else {
 	        alert('수정 실패');
 	      }
@@ -156,22 +281,24 @@
 	    button.textContent = '수정완료';
 
 	    // 📌 사진등록 버튼을 '취소' 버튼으로 바꾸기
-	    photoBtn.textContent = '수정 취소';
-	    photoBtn.classList.remove('btn-photo');
-	    photoBtn.classList.add('btn-cancel');
+	    deleteBtn.textContent = '수정 취소';
+	    deleteBtn.classList.remove('btn-delete');
+	    deleteBtn.classList.add('btn-cancel');
 
 	    // 기존 onclick 제거하고 새로운 기능 설정
-	    photoBtn.onclick = () => {
+	    deleteBtn.onclick = () => {
 	      // 원상복구
 	      inputs.forEach(input => input.style.display = 'none');
 	      spans.forEach(span => span.style.display = 'inline');
 	      button.textContent = '메뉴 수정';
 
-	      photoBtn.textContent = '사진 등록';
-	      photoBtn.classList.remove('btn-cancel');
-	      photoBtn.classList.add('btn-photo');
+	      deleteBtn.textContent = '메뉴 삭제';
+	      deleteBtn.classList.remove('btn-cancel');
+	      deleteBtn.classList.add('btn-delete');
 	      //=======================================================================================================
-	      photoBtn.onclick = null;	//사진기능 추가시 여기다가 반영
+	      deleteBtn.onclick = () => {
+			  deleteMenu(Number(menuId), '${menuType}');
+			};
 	      //=======================================================================================================
 	    };
 	  }
@@ -233,9 +360,89 @@
 	document.querySelectorAll('.fade-up').forEach(section => {
 	  observer.observe(section);
 	});
+	
+	
+	
 </script>
 
 <style>
+
+#addMenuForm {
+  display: none;
+  background-color: #fefefe;
+  margin-bottom: 40px;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #ddd;
+  max-width: 600px;
+  margin: 40px auto;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+#addMenuForm h3 {
+  font-size: 24px;
+  color: #452160;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+#addMenuForm label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+#addMenuForm input,
+#addMenuForm textarea {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  font-family: inherit;
+  transition: border 0.3s ease;
+}
+
+#addMenuForm input:focus,
+#addMenuForm textarea:focus {
+  outline: none;
+  border: 1px solid #452160;
+}
+
+#addMenuForm button {
+  padding: 10px 24px;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-weight: 500;
+}
+
+#addMenuForm button:first-of-type {
+  background-color: #452160;
+  color: #fff;
+}
+
+#addMenuForm button:first-of-type:hover {
+  background-color: #5e2a80;
+}
+
+#addMenuForm button:last-of-type {
+  background-color: #eee;
+  color: #333;
+}
+
+#addMenuForm button:last-of-type:hover {
+  background-color: #ddd;
+}
+
 .menu-container {
   max-width: 80%;
   margin: 0 auto;
@@ -310,12 +517,12 @@
   transition: 0.3s;
 }
 
-.btn-photo{
+.btn-delete{
   padding: 5px 15px;
   font-size: 16px;
-  border: 1px solid #452160;
+  border: 1px solid red;
   background-color: white;
-  color: #452160;
+  color: red;
   border-radius: 6px;
   cursor: pointer;
   transition: 0.3s;
@@ -367,8 +574,8 @@
   background-color: #452160;
   color: white;
 }
-.btn-photo:hover{
-  background-color: #452160;
+.btn-delete:hover{
+  background-color: red;
   color: white;
 }
 .btn-cancel:hover{

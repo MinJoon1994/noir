@@ -20,6 +20,41 @@
   </div>
 </div>
 
+<c:if test="${sessionScope.member.role eq 'ADMIN'}">
+  <button class="wine-add-btn fade-up">와인 추가</button>
+  <button class="wine-edit-btn fade-up">와인 수정</button>
+  <button class="wine-delete-btn fade-up">와인 삭제</button>
+</c:if>
+
+<div id="wine-add-form" class="fade-up" style="display:none; margin-top:30px; border-top:1px solid #ddd; padding-top:20px;">
+	<div style="display:flex; justify-content:center; item-align:center;">
+	  	<h3>새로운 와인 추가</h3>
+	</div>
+  <div class="wine-form-grid">
+    <input type="text" placeholder="와인 이름" id="wine_name">
+    <input type="text" placeholder="지역" id="region">
+    <input type="text" placeholder="빈티지 (연도)" id="vintage">
+    <input type="text" placeholder="생산자" id="producer">
+    <input type="number" placeholder="가격" id="price">
+    <input type="text" placeholder="병 크기 (예: 750ml)" id="bottle_size">
+    <select id="wine_category" class="wine-select">
+      <option value="">카테고리 선택</option>
+      <option value="Full Bottle" ${param.wine_category == 'Full Bottle' ? 'selected' : ''}>𝐅𝐮𝐥𝐥 𝐁𝐨𝐭𝐭𝐥𝐞</option>
+      <option value="By the Glass" ${param.wine_category == 'By the Glass' ? 'selected' : ''}>𝐁𝐲 𝐭𝐡𝐞 𝐆𝐥𝐚𝐬𝐬</option>
+    </select>
+    <select id="wine_type" class="wine-select">
+      <option value="">종류 선택</option>
+      <option value="Red" ${param.wine_type == 'Red' ? 'selected' : ''}>𝐑𝐞𝐝</option>
+      <option value="White" ${param.wine_type == 'White' ? 'selected' : ''}>𝐖𝐡𝐢𝐭𝐞</option>
+      <option value="Sparkling" ${param.wine_type == 'Sparkling' ? 'selected' : ''}>𝐒𝐩𝐚𝐫𝐤𝐥𝐢𝐧𝐠</option>
+      <option value="Dessert" ${param.wine_type == 'Dessert' ? 'selected' : ''}>𝐃𝐞𝐬𝐬𝐞𝐫𝐭</option>
+    </select>
+    <textarea placeholder="설명" id="description" rows="4" style="width:100%;"></textarea>
+    <button id="saveWineBtn" class="wine-search-btn">저장</button>
+  </div>
+</div>
+
+
 <form method="get" action="${contextPath}/menu/winelist.do" class="wine-filter-form fade-up" style="margin-bottom: 30px;">
   <div class="wine-filter-grid fade-up">
     <input type="text" name="wine_name" placeholder="와인 이름" value="${param.wine_name}" class="wine-input"/>
@@ -64,7 +99,8 @@
 	  <!-- 2. 검색 결과가 있을 때 -->
 	  <c:if test="${not empty wineList}">
 	    <c:forEach var="wine" items="${wineList}">
-	      <div class="wine-line fade-up">
+	      <div class="wine-line fade-up" data-id="${wine.wine_id}">
+	        <button class="delete-icon" style="display:none;" onclick="confirmDelete(${wine.wine_id})">−</button>
 	        <span class="wine-name">${wine.wine_name}</span>
 	        <span>${wine.wine_type}</span>,
 	        <span>${wine.region}</span>,
@@ -91,6 +127,110 @@
 	
 </div>
 <style>
+.wine-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 600px;
+  margin-bottom:50px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.wine-form-grid input,
+.wine-form-grid textarea {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background-color: #fdfdfd;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.wine-form-grid input:focus,
+.wine-form-grid textarea:focus {
+  outline: none;
+  border-color: #7c2c5c;
+  box-shadow: 0 0 5px rgba(124, 44, 92, 0.3);
+  background-color: #fff;
+}
+
+.wine-form-grid textarea {
+  resize: vertical;
+}
+
+#saveWineBtn {
+  background: linear-gradient(to right, #452160, #4b1d3f);
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#saveWineBtn:hover {
+  background: linear-gradient(to right, #452160, #301226);
+}
+
+.delete-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+  border: none;
+  font-weight: bold;
+  font-size: 18px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.wine-add-btn{
+  font-size: 14px;
+  color: #452160;
+  border: 1px solid #452160;
+  background-color:white;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.wine-add-btn:hover{
+	color:white;
+	background-color:#452160;
+}
+
+.wine-edit-btn{
+  font-size: 14px;
+  color: #452160;
+  border: 1px solid #452160;
+  background-color:white;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.wine-edit-btn:hover{
+	color:white;
+	background-color:#452160;
+}
+
+.wine-delete-btn {
+  font-size: 14px;
+  color: red;
+  border: 1px solid red;
+  background-color:white;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.wine-delete-btn:hover{
+	color:white;
+	background-color:red;
+}
 
 .wine-image-placeholder {
   position: relative;
@@ -288,6 +428,81 @@
 </style>
 
 <script>
+const addWineBtn = document.querySelector('.wine-add-btn');
+const wineAddForm = document.getElementById('wine-add-form');
+
+if (addWineBtn && wineAddForm) {
+	  addWineBtn.addEventListener('click', () => {
+	    wineAddForm.style.display = wineAddForm.style.display === 'none' ? 'block' : 'none';
+	  });
+}
+
+document.getElementById('saveWineBtn').addEventListener('click', () => {
+  const data = {
+    wine_name: document.getElementById('wine_name').value,
+    wine_type: document.getElementById('wine_type').value,
+    region: document.getElementById('region').value,
+    vintage: document.getElementById('vintage').value,
+    producer: document.getElementById('producer').value,
+    price: document.getElementById('price').value,
+    bottle_size: document.getElementById('bottle_size').value,
+    description: document.getElementById('description').value,
+    wine_category: document.getElementById('wine_category').value,
+  };
+
+  // 유효성 체크는 생략, 필요시 추가 가능
+  fetch('${contextPath}/menu/addWine.do', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())
+  .then(result => {
+    if (result.success) {
+      alert('와인 추가 완료!');
+      location.href='${contextPath}/menu/winelist.do';
+    } else {
+      alert('추가 실패: ' + result.message);
+    }
+  });
+});
+
+const deleteToggleBtn = document.querySelector('.wine-delete-btn');
+let deleteMode = false;
+
+if(deleteToggleBtn){
+deleteToggleBtn.addEventListener('click', () => {
+  deleteMode = !deleteMode;
+  document.querySelectorAll('.delete-icon').forEach(btn => {
+    btn.style.display = deleteMode ? 'inline-block' : 'none';
+  });
+  deleteToggleBtn.textContent = deleteMode ? '삭제 완료' : '와인 삭제';
+});
+}
+function confirmDelete(wineId) {
+  if (confirm('정말 이 와인을 삭제하시겠습니까?')) {
+    fetch('${contextPath}/menu/deleteWine.do', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: 'wine_id=' + wineId
+    })
+    .then(res => res.json())
+    .then(result => {
+      if (result.success) {
+        alert('삭제 완료');
+        location.reload(); // 삭제 후 새로고침
+      } else {
+        alert('삭제 실패');
+      }
+    });
+  }
+}
+
+
 //메인 페이지 페이드아웃 -> 페이드 인 적용 익명 함수
 const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {

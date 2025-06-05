@@ -36,5 +36,9 @@
 	<delete id="deleteByPhotoUrl" parameterType="String">
 		DELETE FROM NOIR_PHOTO WHERE PHOTO_URL=#{photoUrl}
 	</delete>
+	
+	<delete id="deletePhoto" parameterType="int">
+		DELETE FROM NOIR_PHOTO WHERE PHOTO_ID=#{photoId}
+	</delete>
 		
 </mapper>

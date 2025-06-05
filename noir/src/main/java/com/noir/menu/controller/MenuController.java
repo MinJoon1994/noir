@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.noir.menu.service.MenuService;
+import com.noir.menu.vo.MenuAddVO;
 import com.noir.menu.vo.MenuVO;
 import com.noir.menu.vo.SupplementVO;
 import com.noir.menu.vo.WineVO;
@@ -81,7 +82,6 @@ public class MenuController {
 
 		ModelAndView mav=new ModelAndView();
 		
-		System.out.println("wine_name : "+wine_name);
 		
 		//와인 검색 조건
 		Map<String, Object> paramMap = new HashMap<>();
@@ -101,6 +101,44 @@ public class MenuController {
 		
 		return mav;
 	}
+	
+    @RequestMapping(value = "/addWine.do", method=RequestMethod.POST,consumes = "application/json")
+    @ResponseBody
+    public Map<String, Object> addWine(@RequestBody WineVO wineVO) {
+    	
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+        	menuService.insertWine(wineVO);
+            result.put("success", true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("success", false);
+            result.put("error", e.getMessage());
+        }
+
+        return result;
+    }
+    
+    @RequestMapping(value = "/deleteWine.do", method=RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> deleteWine(@RequestParam("wine_id") int wineId) {
+    	
+    	Map<String, Object> result = new HashMap<>();
+    	
+    	try {
+    		menuService.deleteWineById(wineId);
+    		result.put("success", true);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		result.put("success", false);
+    		result.put("error", e.getMessage());
+    	}
+    	
+    	return result;
+    }
+    
+    
 	
 	//메뉴 수정 화면
 	@RequestMapping("/edit.do")
@@ -154,7 +192,6 @@ public class MenuController {
 		
 	    try {
 	        // 필드 추출
-	    	int order = Integer.parseInt(data.get("order").toString());
 	        int id = Integer.parseInt(data.get("id").toString());
 	        String name = data.get("name").toString();
 	        String englishName = data.get("englishName").toString();
@@ -179,7 +216,6 @@ public class MenuController {
 	        } else {
 	            // 일반 메뉴 업데이트
 	            MenuVO menu = new MenuVO();
-	            menu.setMenu_order(order);
 	            menu.setMenu_id(id);
 	            menu.setMenu_name(name);
 	            menu.setMenu_english_name(englishName);
@@ -219,5 +255,24 @@ public class MenuController {
 		
 	}
 	
+	//메뉴 추가
+	@RequestMapping(value="/addMenu",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addMenu(@RequestBody MenuAddVO vo) {
+	    // dto 안에 menuType, name, englishName, description, type(optional), price(optional)
+		
+	    boolean success = menuService.insertMenu(vo);
+	    
+	    return Map.of("success", success);
+	}
+	
+	//메뉴 삭제
+	@RequestMapping(value="/deleteMenu",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> deleteMenu(@RequestBody Map<String, Object> param) {
+		
+	    boolean success = menuService.deleteMenu(param);
+	    return Map.of("success", success);
+	}
 
 }
