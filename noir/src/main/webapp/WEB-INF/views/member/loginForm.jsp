@@ -76,23 +76,7 @@
       vertical-align: middle;
       margin: 0 10px;
     }
-
-    .kakao-btn {
-      width: 100%;
-      padding: 12px;
-      background-color: #FEE500;
-      color: #3C1E1E;
-      font-weight: bold;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-
-    .kakao-btn:hover {
-      background-color: #ffd900;
-    }
-
+    
     .brand-icon {
       width: 36px;
       margin-bottom: 10px;
@@ -122,6 +106,59 @@
 	.register-link a:hover {
 	  text-decoration: underline;
 	}
+	
+.social-btn {
+  width: 100%;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  border: none;
+}
+
+.social-icon {
+  width: 17px;
+  height: 17px;
+}
+
+.naver-btn img{
+  width: 25px;
+  height: 25px;
+}
+
+.kakao-btn {
+  background-color: #FEE500;
+  color: #3C1E1E;
+}
+
+.kakao-btn:hover {
+  background-color: #ffd900;
+}
+
+.naver-btn {
+  background-color: #03C75A;
+  color: white;
+}
+
+.naver-btn:hover {
+  background-color: #029a45;
+}
+
+.google-btn {
+  background-color: white;
+  color: #555;
+  border: 1px solid #ccc;
+}
+
+.google-btn:hover {
+  background-color: #f5f5f5;
+}
   </style>
 </head>
 <body>
@@ -145,8 +182,16 @@
     <div class="divider">또는</div>
 
     <!-- 카카오 로그인 -->
-    <button class="kakao-btn" onclick="location.href='${contextPath}/oauth2/authorization/kakao'">
-      카카오 로그인
+    <button class="social-btn kakao-btn" onclick="location.href='${contextPath}/oauth2/authorization/kakao'">
+      <img src="${contextPath}/resources/image/카카오톡 로고.webp" class="social-icon" alt="Kakao">카카오 로그인
+    </button>
+    
+    <button class="social-btn naver-btn" onclick="location.href='${contextPath}/oauth2/authorization/naver'">
+      <img src="${contextPath}/resources/image/네이버 로고.png" class="social-icon" alt="Naver">네이버 로그인
+    </button>
+    
+    <button class="social-btn google-btn" onclick="location.href='${contextPath}/oauth2/authorization/google'">
+      <img src="${contextPath}/resources/image/구글 로고.png" class="social-icon" alt="Google">구글 로그인
     </button>
     
     <!-- 회원가입 링크 -->

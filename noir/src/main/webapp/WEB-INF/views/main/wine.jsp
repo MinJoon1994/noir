@@ -22,7 +22,6 @@
 
 <c:if test="${sessionScope.member.role eq 'ADMIN'}">
   <button class="wine-add-btn fade-up">와인 추가</button>
-  <button class="wine-edit-btn fade-up">와인 수정</button>
   <button class="wine-delete-btn fade-up">와인 삭제</button>
 </c:if>
 
