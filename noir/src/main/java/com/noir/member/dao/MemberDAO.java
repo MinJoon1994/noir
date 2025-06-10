@@ -33,5 +33,33 @@ public class MemberDAO {
 		map.put("password", password);
 		return sqlSession.selectOne("mapper.member.login",map);
 	}
+	
+	//4.카카오 로그인 회원 등록
+	public void registerKakao(MemberVO memberVO) {
+		sqlSession.insert("mapper.member.insertKakaoMember",memberVO);
+	}
+	
+	//5.소셜 로그인 회원 고유 ID로 회원가입 유무 판별
+	public MemberVO findBySnsId(String snsId) {
+		
+		return sqlSession.selectOne("mapper.member.findByKakaoId",snsId);
+	}
+	
+	//6.구글 로그인 회원 등록
+	public void registerGoogle(MemberVO memberVO) {
+	
+		sqlSession.insert("mapper.member.insertGoogleMember",memberVO);
+		
+	}
+
+	public void saveGooglePhone(String phone, String snsId) {
+		
+		Map<String,String> map = new HashMap<>();
+		map.put("phone", phone);
+		map.put("snsId", snsId);
+		
+		sqlSession.update("mapper.member.saveGooglePhone",map);
+		
+	}
 
 }

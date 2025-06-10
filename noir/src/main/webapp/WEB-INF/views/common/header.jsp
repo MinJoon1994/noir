@@ -118,8 +118,14 @@
 	  <c:when test="${not empty sessionScope.member}">
 	    <div style="display: flex; align-items: center; gap: 10px;">
 		  <div class="profile-wrapper">
-		      <img src="${contextPath}${sessionScope.member.profileImage}"
+		  	<c:if test="${not empty sessionScope.member.social_type}">
+		      <img src="${sessionScope.member.profileImage}"
 		           alt="프로필 이미지">
+		     </c:if>
+		     <c:if test="${empty sessionScope.member.social_type}">
+		     	<img src="${contextPath}${sessionScope.member.profileImage}"
+		           alt="프로필 이미지">
+		     </c:if>
 	      </div>
 	      <span style="font-weight: bold;">${sessionScope.member.name} 님</span>
 	      <a href="<c:url value='/member/logout.do'/>" class="header-link">로그아웃</a>

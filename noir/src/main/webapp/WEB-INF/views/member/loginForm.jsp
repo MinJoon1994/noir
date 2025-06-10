@@ -109,27 +109,36 @@
 	
 .social-btn {
   width: 100%;
-  padding: 12px;
+  padding: 12px 40px; /* 좌우 여백 확보 */
+  position: relative;
   display: flex;
+  justify-content: center; /* 텍스트를 가운데 */
   align-items: center;
-  justify-content: center;
-  gap: 10px;
   border-radius: 6px;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
   margin-top: 10px;
   border: none;
+  background-color: #FEE500; /* 예시: 카카오 컬러 */
+  color: #000;
 }
 
 .social-icon {
+  position: absolute;
+  left: 16px;
   width: 17px;
   height: 17px;
 }
 
+.social-text {
+  text-align: center;
+}
+
 .naver-btn img{
-  width: 25px;
-  height: 25px;
+  left: 10px;
+  width: 28px;
+  height: 28px;
 }
 
 .kakao-btn {
@@ -182,15 +191,16 @@
     <div class="divider">또는</div>
 
     <!-- 카카오 로그인 -->
-    <button class="social-btn kakao-btn" onclick="location.href='${contextPath}/oauth2/authorization/kakao'">
-      <img src="${contextPath}/resources/image/카카오톡 로고.webp" class="social-icon" alt="Kakao">카카오 로그인
+    <button class="social-btn kakao-btn" id="kakaoLoginBtn">
+      <img src="${contextPath}/resources/image/카카오톡 로고.webp" class="social-icon" alt="Kakao">
+      <span class="social-text">카카오 로그인</span>
     </button>
     
-    <button class="social-btn naver-btn" onclick="location.href='${contextPath}/oauth2/authorization/naver'">
+    <button class="social-btn naver-btn" id="naverLoginBtn">
       <img src="${contextPath}/resources/image/네이버 로고.png" class="social-icon" alt="Naver">네이버 로그인
     </button>
     
-    <button class="social-btn google-btn" onclick="location.href='${contextPath}/oauth2/authorization/google'">
+    <button class="social-btn google-btn" id="googleLoginBtn">
       <img src="${contextPath}/resources/image/구글 로고.png" class="social-icon" alt="Google">구글 로그인
     </button>
     
@@ -199,6 +209,43 @@
 	  아직 계정이 없으신가요? <a href="${contextPath}/member/registerForm.do">회원가입</a>
 	</div>
   </div>
+
+<script>
+  //카카오 로그인
+  const rawRedirectUri = "http://localhost:8090/noir/member/KakaoCallback";
+  const encodedRedirectUri = encodeURIComponent(rawRedirectUri);
+
+  const clientId = "f21e91b25c99a317f8ac6471ac3f3c5a";
+  const kakaoAuthUrl = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id="+clientId+"&redirect_uri="+encodedRedirectUri;
+
+  document.getElementById("kakaoLoginBtn").addEventListener("click", function () {
+    window.location.href = kakaoAuthUrl;
+  });
+  
+  //네이버 로그인
+  const naverRedirectUri = "http://localhost:8090/noir/member/NaverCallback";
+  const encodedNaverRedirectUri = encodeURIComponent(naverRedirectUri);
+  const state = "naver_" + new Date().getTime(); // CSRF 방지용 임시 state
+  const naverClientId = "EcRl77o5MKP8XONskdgt";
+  const naverAuthUrl = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id="+naverClientId+"&redirect_uri="+encodedNaverRedirectUri+"&state="+state;
+  
+  document.getElementById("naverLoginBtn").addEventListener("click", function () {
+	    window.location.href = naverAuthUrl;
+  });
+  
+  //구글 로그인
+  const googleClientId = "1094665047278-252f9pu3h7e9547j7e39tjcnq83r6a2p.apps.googleusercontent.com";
+  const googleRedirectUri = encodeURIComponent("http://localhost:8090/noir/member/GoogleCallback");
+  const scope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email";
+  const googleState = "google_" + new Date().getTime();
+
+  const googleAuthUrl = "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id="+googleClientId+"&redirect_uri="+googleRedirectUri+"&scope="+scope+"&state="+googleState;
+
+  document.getElementById("googleLoginBtn").addEventListener("click", function () {
+    window.location.href = googleAuthUrl;
+  });
+</script>
+
 
 </body>
 </html>

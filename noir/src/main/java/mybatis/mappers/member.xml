@@ -32,7 +32,7 @@
 		<result property="role" column="role" />
 		<result property="social_type" column="social_type" />
 		<result property="sns_id" column="sns_id" />
-		<result property="profileImage" column="profile_image" />
+		<result property="profileImage" column="profileimage" />
 	</resultMap>
 	
 	<!-- =========================================================
@@ -67,6 +67,31 @@
 	    )
 	</insert>
 	
+	<insert id="insertKakaoMember" parameterType="com.noir.member.vo.MemberVO">
+	    INSERT INTO NOIR_MEMBER (
+	    	"MEMBER_ID",
+	        "LOGIN_ID",
+	        "PASSWORD",
+	        "NAME",
+	        "PHONE",
+	        "ROLE",
+	        "SOCIAL_TYPE",
+	        "SNS_ID",
+	        "PROFILEIMAGE"
+	        
+	    ) VALUES (
+	    	seq_noir_member_id.NEXTVAL,
+	        #{login_id},
+	        #{password},
+	        #{name},
+	        #{phone},
+	        #{role},
+	        #{social_type},
+	        #{sns_id},
+	        #{profileImage}
+	    )
+	</insert>
+	
 	<select id="countByLoginId" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM NOIR_MEMBER WHERE LOGIN_ID = #{loginId}
 	</select>
@@ -76,4 +101,36 @@
 	    WHERE LOGIN_ID = #{login_id} AND PASSWORD = #{password}
 	</select>
 	
+	<select id="findByKakaoId" parameterType="String" resultMap="memberResult">
+		SELECT * FROM NOIR_MEMBER WHERE SNS_ID = #{snsId}
+	</select>
+	
+	<insert id="insertGoogleMember" parameterType="com.noir.member.vo.MemberVO">
+	    INSERT INTO NOIR_MEMBER (
+	    	"MEMBER_ID",
+	        "LOGIN_ID",
+	        "PASSWORD",
+	        "NAME",
+	        "ROLE",
+	        "SOCIAL_TYPE",
+	        "SNS_ID",
+	        "PROFILEIMAGE"
+	        
+	    ) VALUES (
+	    	seq_noir_member_id.NEXTVAL,
+	        #{login_id},
+	        #{password},
+	        #{name},
+	        #{role},
+	        #{social_type},
+	        #{sns_id},
+	        #{profileImage}
+	    )
+	</insert>
+	
+	<update id="saveGooglePhone" parameterType="map">
+		  UPDATE NOIR_MEMBER
+		  SET PHONE = #{phone}
+		  WHERE SNS_ID = #{snsId}
+	</update>
 </mapper>

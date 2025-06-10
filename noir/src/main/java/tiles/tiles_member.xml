@@ -19,6 +19,12 @@
          <put-attribute name="body" value="/WEB-INF/views/member/loginForm.jsp" />
       </definition>
       
+	  <definition name="/member/googleForm" extends="baseLayout">
+         <put-attribute name="title" value="𝐍𝐎𝐈𝐑 | google" />
+         <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+         <put-attribute name="body" value="/WEB-INF/views/member/googleForm.jsp" />
+      </definition>
+      
       <definition name="/member/registerForm" extends="baseLayout">
          <put-attribute name="title" value="𝐍𝐎𝐈𝐑 | Join" />
          <put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
