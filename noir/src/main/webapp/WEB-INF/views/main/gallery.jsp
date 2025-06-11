@@ -41,11 +41,11 @@
 	     <c:choose>
 	       <c:when test="${fn:startsWith(photo.photo_url, '/resources/')}">
 	         <img src="${contextPath}${photo.photo_url}" 
-	              class="menu-photo ${status.index >= 12 ? 'hidden' : ''}" onclick="openModal(this)"/>
+	              class="menu-photo ${status.index >= 12 ? 'hidden' : ''}" onclick="openModal(this)" data-id="${photo.id}"/>
 	       </c:when>
 	       <c:otherwise>
 	         <img src="${uploadPath}/${photo.photo_url}" 
-	              class="menu-photo ${status.index >= 12 ? 'hidden' : ''}" onclick="openModal(this)"/>
+	              class="menu-photo ${status.index >= 12 ? 'hidden' : ''}" onclick="openModal(this)" data-id="${photo.id}"/>
 	       </c:otherwise>
 	     </c:choose>
 	   </c:forEach>
@@ -70,11 +70,11 @@
 	      <c:choose>
 	        <c:when test="${fn:startsWith(photo.photo_url, '/resources/')}">
 	          <img src="${contextPath}${photo.photo_url}" 
-	               class="restaurant-photo ${status.index >= 12 ? 'hidden' : ''}" onclick="openModal(this)"/>
+	               class="restaurant-photo ${status.index >= 12 ? 'hidden' : ''}" onclick="openModal(this)" data-id="${photo.id}"/>
 	        </c:when>
 	        <c:otherwise>
 	          <img src="${uploadPath}/${photo.photo_url}" 
-	               class="restaurant-photo ${status.index >= 12 ? 'hidden' : ''}" onclick="openModal(this)"/>
+	               class="restaurant-photo ${status.index >= 12 ? 'hidden' : ''}" onclick="openModal(this)" data-id="${photo.id}"/>
 	        </c:otherwise>
 	      </c:choose>
 	    </c:forEach>
@@ -99,11 +99,11 @@
 	      <c:choose>
 	        <c:when test="${fn:startsWith(photo.photo_url, '/resources/')}">
 	          <img src="${contextPath}${photo.photo_url}" 
-	               class="staff-photo ${status.index >= 12 ? 'hidden' : ''}" onclick="openModal(this)"/>
+	               class="staff-photo ${status.index >= 12 ? 'hidden' : ''}" onclick="openModal(this)" data-id="${photo.id}"/>
 	        </c:when>
 	        <c:otherwise>
 	          <img src="${uploadPath}/${photo.photo_url}" 
-	               class="staff-photo ${status.index >= 12 ? 'hidden' : ''}" onclick="openModal(this)"/>
+	               class="staff-photo ${status.index >= 12 ? 'hidden' : ''}" onclick="openModal(this)" data-id="${photo.id}"/>
 	        </c:otherwise>
 	      </c:choose>
 	    </c:forEach>
@@ -361,9 +361,7 @@ const observer = new IntersectionObserver(entries => {
 	  if (!confirm('이 사진을 삭제하시겠습니까?')) return;
 
 	  const img = imageList[currentImageIndex];
-	  let photoUrl = img.getAttribute('src');
-	  
-	  photoUrl = photoUrl.substring(photoUrl.lastIndexOf('/') + 1);
+	  const photoId = img.dataset.id; // data-id에서 값 가져오기
 	  
 	  // 여기서 서버로 AJAX 요청을 보내야 함
 	  fetch('${contextPath}/gallery/deletePhoto', {
@@ -371,7 +369,7 @@ const observer = new IntersectionObserver(entries => {
 	    headers: {
 	      'Content-Type': 'application/json'
 	    },
-	    body: JSON.stringify({ photoUrl: photoUrl })
+	    body: JSON.stringify({ photoId: photoId })
 	  })
 	  .then(res => res.json())
 	  .then(data => {

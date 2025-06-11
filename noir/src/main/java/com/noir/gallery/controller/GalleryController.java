@@ -83,12 +83,12 @@ public class GalleryController {
 		
 	    Map<String, Object> result = new HashMap<>();
 
-	    String photoUrl = body.get("photoUrl");
+	    int photoId = Integer.parseInt(body.get("photoId"));
 	    
-	    System.out.println("photoUrl"+photoUrl);
+	    System.out.println("photoId: "+photoId);
 	    
 	    // 여기서 DB + 파일 삭제 처리하면 됨
-	    int deleted = galleryService.deleteByUrl(photoUrl); // 예시
+	    int deleted = galleryService.deleteByPhotoId(photoId); // 예시
 	    
 	    if (deleted == 1) {
 	        result.put("success", true);

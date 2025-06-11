@@ -86,14 +86,12 @@ public class MenuDAO {
 	
 	//11. 코스 메뉴 삭제
 	public void deleteMenu(int menu_id) {
-		sqlSession.delete("mapper.menu.deleteMenu",menu_id);
 		
+		//메뉴 삭제
+		sqlSession.delete("mapper.menu.deleteMenu",menu_id);
+	
 	}
 
-	public Integer findPhotoIdByMenuId(int menu_id) {
-		
-		return sqlSession.selectOne("mapper.menu.findPhotoIdByMenuId",menu_id);
-	}
 
 	public void deletePhoto(int photoId) {
 		

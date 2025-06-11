@@ -26,9 +26,9 @@ public class GalleryDAO {
 		return sqlSession.selectList("mapper.gallery.selectAllPhotos");
 	}
 
-	public int deleteByPhotoUrl(String photoUrl) {
+	public int deleteByPhotoId(int photoId) {
 		
-		return sqlSession.delete("mapper.gallery.deleteByPhotoUrl",photoUrl);
+		return sqlSession.delete("mapper.gallery.deletePhoto",photoId);
 	}
 	
 }

@@ -28,9 +28,9 @@ public class GalleryService {
 	}
 	
 	//3.사진 삭제
-	public int deleteByUrl(String photoUrl) {
+	public int deleteByPhotoId(int photoId) {
 		
-		return galleryDAO.deleteByPhotoUrl(photoUrl);
+		return galleryDAO.deleteByPhotoId(photoId);
 	}
 
 }

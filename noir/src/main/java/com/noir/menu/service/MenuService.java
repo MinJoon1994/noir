@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.noir.menu.dao.MenuDAO;
 import com.noir.menu.vo.MenuAddVO;
@@ -94,6 +95,7 @@ public class MenuService {
 	}
 	
 	//8. 메뉴 삭제
+	@Transactional
 	public boolean deleteMenu(Map<String, Object> param) {
 		
 		int menu_id = (Integer)param.get("menuId");
@@ -105,14 +107,7 @@ public class MenuService {
 		}
 		//코스 메뉴일 경우
 		else {
-			
-			//사진id 조회
-			Integer photoId = menuDAO.findPhotoIdByMenuId(menu_id);
-			
-		    if (photoId != null) {
-		    	menuDAO.deletePhoto(photoId);
-		    }
-		    
+ 
 			menuDAO.deleteMenu(menu_id);
 		}
 		

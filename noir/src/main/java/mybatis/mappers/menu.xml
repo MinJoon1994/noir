@@ -153,10 +153,6 @@
 		delete from noir_menu where menu_id=#{menu_id}
 	</delete>
 	
-	<select id="findPhotoIdByMenuId" parameterType="int" resultType="Integer">
-		select photo_id from noir_menu where menu_id=#{menu_id}
-	</select>
-	
 	<insert id="insertWine" parameterType="map">
 		insert into noir_wine
 		(wine_id,wine_name,wine_type,region,vintage,producer,price,bottle_size,description,wine_category)
