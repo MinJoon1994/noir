@@ -184,9 +184,6 @@ body {
 	height:50px;
 }
 </style>
-<div class="icon_box fade-up" style="margin-top:50px;">
-   <img src="${contextPath}/resources/image/noir_icon.png"/>
-</div>
 
 <div class="main_food_container fade-up">
   <img class="main_food_img" src="${contextPath}/resources/image/main_food1.png" alt="Food 1">

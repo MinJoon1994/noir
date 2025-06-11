@@ -84,14 +84,10 @@ public class MemberController {
 	@RequestMapping(value="/saveGooglePhone",method=RequestMethod.POST)
 	public ModelAndView saveGooglePhone(@RequestParam("phone")String phone,
 			HttpServletRequest req,HttpServletResponse resp)throws Exception {
-		
-		ModelAndView mav = new ModelAndView();
-		
+				
 		memberService.saveGooglePhone(req,phone);
-		
-		mav.setViewName("redirect:/main.do");
-		
-		return mav;
+				
+		return new ModelAndView("forward:/WEB-INF/views/member/saveSuccess.jsp");
 	}
 	
 	//멤버 회원가입 처리
@@ -143,6 +139,7 @@ public class MemberController {
 		
 	}
 	
+	//로그인
 	@RequestMapping(value="/login.do",method=RequestMethod.POST)
 	public ModelAndView login(HttpServletRequest req, HttpServletResponse resp) {
 		
@@ -164,6 +161,7 @@ public class MemberController {
 		return mav;
 	}
 	
+	//로그아웃
 	@RequestMapping("/logout.do")
 	public ModelAndView logout(HttpServletRequest req,HttpServletResponse resp) {
 		
@@ -180,6 +178,7 @@ public class MemberController {
 	}
 	
 	
+	//카카오 로그인
 	@RequestMapping(value="/KakaoCallback",
 					produces="application/json;charset=utf-8",
 					method=RequestMethod.GET)
@@ -247,6 +246,7 @@ public class MemberController {
 		return mav;
 	}
 	
+	//네이버 로그인
 	@RequestMapping(value="/NaverCallback")
 	public ModelAndView naverCallback(String code,String state,
 			HttpServletRequest req, HttpServletResponse resp) throws Exception{
@@ -306,6 +306,7 @@ public class MemberController {
 		return mav;
 	}
 	
+	//구글 로그인
 	@RequestMapping(value="/GoogleCallback")
 	public ModelAndView googleCallback(String code,String state,
 			HttpServletRequest req, HttpServletResponse resp) throws Exception{

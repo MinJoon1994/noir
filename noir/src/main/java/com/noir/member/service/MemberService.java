@@ -119,9 +119,8 @@ public class MemberService {
 		member.setSns_id(naverProfile.getResponse().getId());;
 		member.setRole(MemberRole.USER);
 		
-		System.out.println(member.getPhone());
-		
-		memberDAO.registerKakao(member);
+		//카카오 로그인이랑 로직이 동일하므로 카카오 로그인 메소드 사용
+		memberDAO.registerKakao(member); 
 		
 		return member;
 	}
